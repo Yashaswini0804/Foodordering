@@ -37,6 +37,7 @@ function Navbar() {
                             </button>
                             <div className="dropdown-menu">
                                 <a className="dropdown-item" href="/profile">Profile</a>
+                                <a className="dropdown-item" href="/orders">Orders</a>
                                 <a className="dropdown-item" href="#" onClick={logout}>Logout</a>
                                 <a className='dropdown-item' href='/admin' onClick={admin}>Admin</a>
                             </div>

@@ -30,6 +30,18 @@ function Profilescreen() {
     window.location.href = '/login';
   };
 
+  const handleRefresh = async () => {
+    try {
+      const userInfo = JSON.parse(localStorage.getItem('currentuser'));
+      if (userInfo) {
+        const response = await axios.post('/api/orders/getordersbyuserid', { userid: userInfo._id });
+        setOrders(response.data);
+      }
+    } catch (error) {
+      console.error('Error refreshing orders:', error);
+    }
+  };
+
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
   }
@@ -54,14 +66,15 @@ function Profilescreen() {
         
         <div className="col-md-6">
           <h2>Order History</h2>
+          <button onClick={handleRefresh} className="btn btn-primary mb-3">Refresh Orders</button>
           {orders.length === 0 ? (
             <p>No orders found</p>
           ) : (
-            orders.map(order => (
+                orders.map(order => (
               <div key={order._id} className="card mb-3">
                 <div className="card-body">
-                  <p className="card-text">Amount: Rs.{order.orderAmount}</p>
-                  <p className="card-text">Status: {order.isDelivered ? 'Delivered' : 'Pending'}</p>
+                  <p className="card-text">Amount: Rs.{order.totalPrice}</p>
+                  <p className="card-text">Status: {order.orderStatus}</p>
                   <p className="card-text">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
                 </div>
               </div>

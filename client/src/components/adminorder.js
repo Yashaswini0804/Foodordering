@@ -26,18 +26,19 @@ export function Orders() {
     }, []);
 
     const handleStatusChange = async (orderId, newStatus) => {
-        try {
-            console.log('Updating order status:', orderId, newStatus);
-            const updateResponse = await axios.put('/api/orders/updateorderstatus', { orderid: orderId, status: newStatus });
-            console.log('Update response:', updateResponse.data);
-            // Refresh orders
-            const response = await axios.get('/api/orders/getallorders');
-            setorders(response.data);
-            console.log('Orders refreshed after status update');
-        } catch (error) {
-            console.log('Error updating order status:', error);
-            setError(error);
-        }
+    try {
+        console.log('Updating order status:', orderId, newStatus);
+        const updateResponse = await axios.put('/api/orders/updateorderstatus', { orderid: orderId, status: newStatus });
+        console.log('Update response:', updateResponse.data);
+        // Refresh orders
+        const response = await axios.get('/api/orders/getallorders');
+        setorders(response.data);
+        console.log('Orders refreshed after status update');
+        // Notify profile page or other components if needed (e.g., via event bus or state management)
+    } catch (error) {
+        console.log('Error updating order status:', error);
+        setError(error);
+    }
     };
 
     return (
